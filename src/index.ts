@@ -113,23 +113,20 @@ export class Parser {
 
   private child() {
     switch (this._lookahead.type) {
-      case TokenTypes.Text:
-        return this.text();
       case TokenTypes.TagStart:
         return this.component();
       default:
-        throw new SyntaxError(
-          `Unexpected token  ${this._lookahead.type}. Expected: ${TokenTypes.Text} or ${TokenTypes.TagStart}`
-        );
+        return this.text();
     }
   }
 
   public text() {
     let value = "";
 
-    while (this._lookahead.type === TokenTypes.Text) {
-      const textNode = this._eat(TokenTypes.Text);
-      const space = this._lookahead.type === TokenTypes.Text ? " " : "";
+    while (![TokenTypes.TagStart, TokenTypes.TagClose].includes(this._lookahead.type)) {
+      console.log(this._lookahead);
+      const textNode = this._eat(this._lookahead.type);
+      const space = " ";
       value += `${textNode.value}${space}`;
     }
 
