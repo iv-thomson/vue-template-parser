@@ -10,13 +10,13 @@ export interface Token {
 }
 
 export enum TokenTypes {
-  TagStart = "tag-start",
-  TagEnd = "tag-end",
-  TagClose = "tag-close",
-  Text = "text",
-  Attribute = "attribute",
-  DynamicAttribute = "dynamic-attribute",
-  EventAttribute = "event-attribute",
+  TagStart = 'tag-start',
+  TagEnd = 'tag-end',
+  TagClose = 'tag-close',
+  Text = 'text',
+  Attribute = 'attribute',
+  DynamicAttribute = 'dynamic-attribute',
+  EventAttribute = 'event-attribute',
 }
 
 const SPEC: [RegExp, TokenTypes | null][] = [

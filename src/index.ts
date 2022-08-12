@@ -1,4 +1,4 @@
-import { Token, Tokenizer, TokenizerInterface, TokenTypes } from "./tokenizer";
+import { Token, Tokenizer, TokenizerInterface, TokenTypes } from './tokenizer';
 
 export class Parser {
   private tokenizer: TokenizerInterface;
@@ -29,7 +29,7 @@ export class Parser {
 
     this._eat(TokenTypes.TagClose);
     return {
-      type: "Component",
+      type: 'Component',
       value: name,
       attributes,
       children,
@@ -63,10 +63,10 @@ export class Parser {
 
   private attribute() {
     const attributeToken = this._eat(TokenTypes.Attribute);
-    const [left, right] = attributeToken.value.split("=");
+    const [left, right] = attributeToken.value.split('=');
 
     return {
-      type: "Attribute",
+      type: 'Attribute',
       left,
       right: right.slice(1, -1),
       dynamic: false,
@@ -75,10 +75,10 @@ export class Parser {
 
   private dynamicAttribute() {
     const attributeToken = this._eat(TokenTypes.DynamicAttribute);
-    const [left, right] = attributeToken.value.split("=");
+    const [left, right] = attributeToken.value.split('=');
 
     return {
-      type: "Attribute",
+      type: 'Attribute',
       left: left.slice(1),
       right: right.slice(1, -1),
       dynamic: true,
@@ -87,10 +87,10 @@ export class Parser {
 
   private eventAttribute() {
     const attributeToken = this._eat(TokenTypes.EventAttribute);
-    const [left, right] = attributeToken.value.split("=");
+    const [left, right] = attributeToken.value.split('=');
 
     return {
-      type: "Attribute",
+      type: 'Attribute',
       left: left.slice(1),
       right: right.slice(1, -1),
       dynamic: true,
@@ -101,10 +101,7 @@ export class Parser {
     const children = [];
     const lookaheadName = `${this._lookahead.value.slice(1, -1)}`;
 
-    while (
-      this._lookahead.type !== TokenTypes.TagClose &&
-      lookaheadName !== name
-    ) {
+    while (this._lookahead.type !== TokenTypes.TagClose && lookaheadName !== name) {
       children.push(this.child());
     }
 
@@ -121,17 +118,17 @@ export class Parser {
   }
 
   public text() {
-    let value = "";
+    let value = '';
 
     while (![TokenTypes.TagStart, TokenTypes.TagClose].includes(this._lookahead.type)) {
       console.log(this._lookahead);
       const textNode = this._eat(this._lookahead.type);
-      const space = " ";
+      const space = ' ';
       value += `${textNode.value}${space}`;
     }
 
     return {
-      type: "Text",
+      type: 'Text',
       value,
     };
   }
@@ -144,9 +141,7 @@ export class Parser {
     }
 
     if (token.type !== tokenType) {
-      throw new SyntaxError(
-        `Unexpected token ${token.type}. Expected: ${tokenType}`
-      );
+      throw new SyntaxError(`Unexpected token ${token.type}. Expected: ${tokenType}`);
     }
 
     this._lookahead = this.tokenizer.getNextToken();
