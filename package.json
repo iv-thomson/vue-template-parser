@@ -20,12 +20,19 @@
     "dev": "ts-node ./src/cli.ts",
     "clean": "rimraf ./dist/ ./exec/",
     "build": "npm run clean && tsc",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore --fix src",
     "test": "npm run build && ava --verbose",
     "bundle": "npm run build && pkg . --out-dir ./exec/"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
     "ava": "^2.2.0",
+    "eslint": "^7.28.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^9.1.1",
     "pkg": "^4.4.0",
+    "prettier": "^2.7.1",
     "rimraf": "^2.6.3",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"

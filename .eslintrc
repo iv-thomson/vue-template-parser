@@ -1,0 +1,23 @@
+{
+  "root": true,
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "rules": {
+    "prettier/prettier": 1
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "prettier",
+    "@typescript-eslint/eslint-plugin"
+  ]
+}
