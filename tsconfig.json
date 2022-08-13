@@ -4,6 +4,11 @@
     "outDir": "dist",
     "module": "commonjs",
     "target": "es6",
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+    },
+  },
 }

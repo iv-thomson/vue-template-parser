@@ -1,13 +1,18 @@
+import { EXPRESSION_SPEC, MAIN_SPEC } from './constants';
+import { ExpressionParser } from './parsers/ExpressionParser';
 import { Token, Tokenizer, TokenizerInterface, TokenTypes } from './tokenizer';
 
 export class Parser {
   private tokenizer: TokenizerInterface;
   private code: string;
 
+  private expressionParser: ExpressionParser;
+
   private _lookahead: Token | null;
 
   constructor() {
-    this.tokenizer = new Tokenizer();
+    this.tokenizer = new Tokenizer(MAIN_SPEC);
+    this.expressionParser = new ExpressionParser(new Tokenizer(EXPRESSION_SPEC));
   }
   public parse(code: string) {
     this.code = code;
@@ -77,10 +82,12 @@ export class Parser {
     const attributeToken = this._eat(TokenTypes.DynamicAttribute);
     const [left, right] = attributeToken.value.split('=');
 
+    const expression = this.expressionParser.parse(right.slice(1, -1));
+
     return {
       type: 'Attribute',
       left: left.slice(1),
-      right: right.slice(1, -1),
+      right: expression,
       dynamic: true,
     };
   }
@@ -121,7 +128,6 @@ export class Parser {
     let value = '';
 
     while (![TokenTypes.TagStart, TokenTypes.TagClose].includes(this._lookahead.type)) {
-      console.log(this._lookahead);
       const textNode = this._eat(this._lookahead.type);
       const space = ' ';
       value += `${textNode.value}${space}`;

@@ -17,22 +17,20 @@ export enum TokenTypes {
   Attribute = 'attribute',
   DynamicAttribute = 'dynamic-attribute',
   EventAttribute = 'event-attribute',
+  Number = 'number',
+  StringSingle = 'string-single',
+  StringDouble = 'string-double',
+  Boolean = 'boolean',
+  Operator = 'operator',
+  Equals = 'equals',
+  Identifier = 'identifier',
 }
-
-const SPEC: [RegExp, TokenTypes | null][] = [
-  [/^\s+/, null],
-  [/^(<\/[^>]*>)/, TokenTypes.TagClose],
-  [/^>/, TokenTypes.TagEnd],
-  [/^</, TokenTypes.TagStart],
-  [/^@[aA-z-]*=".*?"/, TokenTypes.EventAttribute],
-  [/^:[aA-z-]*=".*?"/, TokenTypes.DynamicAttribute],
-  [/^[aA-z-]*=".*?"/, TokenTypes.Attribute],
-  [/^[^\s<>]+/, TokenTypes.Text],
-];
 
 export class Tokenizer implements TokenizerInterface {
   private _code: string;
   private _index: number;
+
+  constructor(private readonly spec: [RegExp, TokenTypes | null][]) {}
 
   public init(code: string): void {
     this._code = code;
@@ -54,7 +52,7 @@ export class Tokenizer implements TokenizerInterface {
 
     const code = this._code.slice(this._index);
 
-    for (const [regEx, tokenType] of SPEC) {
+    for (const [regEx, tokenType] of this.spec) {
       const tokenValue = this._match(regEx, code);
 
       if (tokenValue === null) {
