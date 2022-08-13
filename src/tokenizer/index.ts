@@ -13,6 +13,7 @@ export enum TokenTypes {
   TagStart = 'tag-start',
   TagEnd = 'tag-end',
   TagClose = 'tag-close',
+  TagOpen = 'tag-open',
   Text = 'text',
   Attribute = 'attribute',
   DynamicAttribute = 'dynamic-attribute',

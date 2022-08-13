@@ -1,9 +1,10 @@
+import { EXPRESSION_SPEC } from '../constants';
 import { ExpressionNode, LiteralNode, LiteralType, Operator } from '../models';
-import { Token, TokenTypes } from '../tokenizer';
+import { Tokenizer, TokenTypes } from '../tokenizer';
 import { BaseParser } from './BaseParser';
 
 export class ExpressionParser extends BaseParser {
-  protected _lookahead: Token;
+  protected tokenizer = new Tokenizer(EXPRESSION_SPEC);
   private code: string;
 
   public parse(code: string): ExpressionNode | LiteralNode {
@@ -16,7 +17,8 @@ export class ExpressionParser extends BaseParser {
 
   public expression(): ExpressionNode | LiteralNode {
     const left = this.literal();
-    if (this.tokenizer.isEndOfString()) {
+
+    if (!this.tokenizer.isAnyTokenLeft()) {
       return left;
     }
     const operator = this.operator();
@@ -24,8 +26,8 @@ export class ExpressionParser extends BaseParser {
 
     return {
       left,
-      operator,
       right,
+      operator,
     };
   }
 

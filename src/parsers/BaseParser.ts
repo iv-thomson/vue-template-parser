@@ -1,9 +1,9 @@
 import { Token, TokenizerInterface, TokenTypes } from '../tokenizer';
 
 export abstract class BaseParser {
-  protected _lookahead: Token;
+  protected abstract tokenizer: TokenizerInterface;
 
-  constructor(protected tokenizer: TokenizerInterface) {}
+  protected _lookahead: Token;
 
   protected _eat(tokenType: TokenTypes) {
     const token = this._lookahead;

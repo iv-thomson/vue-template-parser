@@ -13,10 +13,26 @@ export const MAIN_SPEC: [RegExp, TokenTypes | null][] = [
 
 export const EXPRESSION_SPEC: [RegExp, TokenTypes | null][] = [
   [/^\s+/, null],
-  [/^=+/, TokenTypes.Equals],
   [/^\d+/, TokenTypes.Number],
   [/^'.*'/, TokenTypes.StringSingle],
   [/^".*"/, TokenTypes.StringDouble],
-  [/^[+-]/, TokenTypes.Operator],
+  [/^\+|^-|^===|^\*|^\/|^>|^<|^>=|^<=|^&&|^\|\||^!|^\(|^\)/, TokenTypes.Operator],
   [/^([^\d]\w+)/, TokenTypes.Identifier],
+];
+
+export const COMPONENT_SPEC: [RegExp, TokenTypes | null][] = [
+  [/^\s+/, null],
+  [/^(<\/[^>]*>)/, TokenTypes.TagClose],
+  [/^(<[^>]*>)/, TokenTypes.TagOpen],
+  [/^[^\s<>]+/, TokenTypes.Text],
+];
+
+export const ATTRIBUTE_SPEC: [RegExp, TokenTypes | null][] = [
+  [/^\s+/, null],
+  [/^(<\/[^>]*>)/, TokenTypes.TagClose],
+  [/^>/, TokenTypes.TagEnd],
+  [/^</, TokenTypes.TagStart],
+  [/^@[aA-z-]*=".*?"/, TokenTypes.EventAttribute],
+  [/^:[aA-z-]*=".*?"/, TokenTypes.DynamicAttribute],
+  [/^[aA-z-]*=".*?"/, TokenTypes.Attribute],
 ];
