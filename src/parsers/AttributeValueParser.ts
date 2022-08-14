@@ -1,10 +1,10 @@
-import { EXPRESSION_SPEC } from '../constants';
-import { ExpressionNode, LiteralNode, LiteralType, Operator } from '../models';
+import { ATTRIBUTE_VALUE_SPEC } from '../constants';
+import { LiteralNode, LiteralType, Operator } from '../models';
 import { Tokenizer, TokenTypes } from '../tokenizer';
 import { BaseParser } from './BaseParser';
 
-export class ExpressionParser extends BaseParser {
-  protected tokenizer = new Tokenizer(EXPRESSION_SPEC);
+export class AttributeValueParser extends BaseParser {
+  protected tokenizer = new Tokenizer(ATTRIBUTE_VALUE_SPEC);
   private code: string;
 
   public parse(code: string): unknown {

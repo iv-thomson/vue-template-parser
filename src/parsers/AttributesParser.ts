@@ -3,11 +3,11 @@ import { ATTRIBUTE_SPEC } from '../constants';
 
 import { Tokenizer, TokenTypes } from '../tokenizer';
 import { BaseParser } from './BaseParser';
-import { ExpressionParser } from './ExpressionParser';
+import { AttributeValueParser } from './AttributeValueParser';
 
 export class AttributeParser extends BaseParser {
   protected readonly tokenizer = new Tokenizer(ATTRIBUTE_SPEC);
-  private readonly expressionParser = new ExpressionParser();
+  private readonly attributeValueParser = new AttributeValueParser();
 
   private code: string;
 
@@ -37,7 +37,7 @@ export class AttributeParser extends BaseParser {
       case TokenTypes.Attribute:
         return this.attribute();
       case TokenTypes.EventAttribute:
-        return this.eventAttribute();
+        return this.dynamicAttribute(true);
       default:
         throw new SyntaxError(
           `Unexpected token  ${this._lookahead.type}. Expected: ${TokenTypes.Attribute} or ${TokenTypes.DynamicAttribute}`
@@ -56,30 +56,16 @@ export class AttributeParser extends BaseParser {
     };
   }
 
-  private dynamicAttribute(): DynamicAttributeNode {
-    const attributeToken = this._eat(TokenTypes.DynamicAttribute);
+  private dynamicAttribute(isEvent = false): DynamicAttributeNode {
+    const attributeToken = this._eat(isEvent ? TokenTypes.EventAttribute : TokenTypes.DynamicAttribute);
     const [left, ...restRight] = attributeToken.value.split('=');
     const right = restRight.join('=');
 
-    const expression = this.expressionParser.parse(right.slice(1, -1));
+    const value = this.attributeValueParser.parse(right.slice(1, -1));
 
     return {
       left: left.slice(1),
-      right: expression,
-      isDynamic: true,
-    };
-  }
-
-  private eventAttribute(): DynamicAttributeNode {
-    const attributeToken = this._eat(TokenTypes.EventAttribute);
-    const [left, ...restRight] = attributeToken.value.split('=');
-    const right = restRight.join('=');
-
-    const expression = this.expressionParser.parse(right.slice(1, -1));
-
-    return {
-      left: left.slice(1),
-      right: expression,
+      right: value,
       isDynamic: true,
     };
   }
