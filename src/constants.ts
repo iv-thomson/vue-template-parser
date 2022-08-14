@@ -16,8 +16,9 @@ export const EXPRESSION_SPEC: [RegExp, TokenTypes | null][] = [
   [/^\d+/, TokenTypes.Number],
   [/^'.*'/, TokenTypes.StringSingle],
   [/^".*"/, TokenTypes.StringDouble],
+  [/^true|^false/, TokenTypes.Boolean],
   [/^\+|^-|^===|^\*|^\/|^>|^<|^>=|^<=|^&&|^\|\||^!|^\(|^\)/, TokenTypes.Operator],
-  [/^([^\d]\w+)/, TokenTypes.Identifier],
+  [/^(?!true$|false$|\d)\w+/, TokenTypes.Identifier],
 ];
 
 export const COMPONENT_SPEC: [RegExp, TokenTypes | null][] = [

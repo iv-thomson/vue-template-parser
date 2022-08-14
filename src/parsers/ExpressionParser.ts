@@ -7,7 +7,7 @@ export class ExpressionParser extends BaseParser {
   protected tokenizer = new Tokenizer(EXPRESSION_SPEC);
   private code: string;
 
-  public parse(code: string): ExpressionNode | LiteralNode {
+  public parse(code: string): unknown {
     this.code = code;
     this.tokenizer.init(this.code);
     this._lookahead = this.tokenizer.getNextToken();
@@ -15,20 +15,14 @@ export class ExpressionParser extends BaseParser {
     return this.expression();
   }
 
-  public expression(): ExpressionNode | LiteralNode {
+  public expression(): unknown {
     const left = this.literal();
 
     if (!this.tokenizer.isAnyTokenLeft()) {
-      return left;
+      return left.value;
     }
-    const operator = this.operator();
-    const right = this.expression();
 
-    return {
-      left,
-      right,
-      operator,
-    };
+    return `${this.code}`;
   }
 
   public operator(): Operator {
@@ -41,6 +35,8 @@ export class ExpressionParser extends BaseParser {
     switch (this._lookahead.type) {
       case TokenTypes.Number:
         return this.number();
+      case TokenTypes.Boolean:
+        return this.boolean();
       case TokenTypes.StringSingle:
         return this.stringSingleQuotes();
       case TokenTypes.StringDouble:
@@ -58,6 +54,15 @@ export class ExpressionParser extends BaseParser {
     return {
       type: LiteralType.Number,
       value: Number(token.value),
+    };
+  }
+
+  public boolean(): LiteralNode {
+    const token = this._eat(TokenTypes.Boolean);
+
+    return {
+      type: LiteralType.Boolean,
+      value: token.value === 'true' ? true : false,
     };
   }
 

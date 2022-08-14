@@ -28,20 +28,18 @@ export interface ASTComponentNode extends ASTNode {
 
 export interface AttributeNode {
   left: string;
-  right: string | ExpressionNode | LiteralNode;
+  right: unknown;
   isDynamic: boolean;
 }
 
 export interface DynamicAttributeNode {
   left: string;
-  right: ExpressionNode | LiteralNode;
+  right: unknown;
   isDynamic: boolean;
 }
 
 export interface ExpressionNode {
-  left: LiteralNode;
-  right?: ExpressionNode | LiteralNode;
-  operator?: Operator;
+  value: string;
 }
 
 export interface LiteralNode {
