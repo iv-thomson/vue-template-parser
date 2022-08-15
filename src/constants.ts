@@ -35,4 +35,5 @@ export const ATTRIBUTE_SPEC: [RegExp, TokenTypes | null][] = [
   [/^@[aA-z-]*=".*?"/, TokenTypes.EventAttribute],
   [/^:[aA-z-]*=".*?"/, TokenTypes.DynamicAttribute],
   [/^[aA-z-]*=".*?"/, TokenTypes.Attribute],
+  [/^v-\w+:[aA-z-]*=".*?"/, TokenTypes.Attribute],
 ];

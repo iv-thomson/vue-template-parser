@@ -25,6 +25,7 @@ export enum TokenTypes {
   Operator = 'operator',
   Equals = 'equals',
   Identifier = 'identifier',
+  Directive = 'directive',
 }
 
 export class Tokenizer implements TokenizerInterface {
