@@ -5,9 +5,6 @@ export const MAIN_SPEC: [RegExp, TokenTypes | null][] = [
   [/^(<\/[^>]*>)/, TokenTypes.TagClose],
   [/^>/, TokenTypes.TagEnd],
   [/^</, TokenTypes.TagStart],
-  [/^@[aA-z-]*=".*?"/, TokenTypes.EventAttribute],
-  [/^:[aA-z-]*=".*?"/, TokenTypes.DynamicAttribute],
-  [/^[aA-z-]*=".*?"/, TokenTypes.Attribute],
   [/^[^\s<>]+/, TokenTypes.Text],
 ];
 
@@ -29,9 +26,7 @@ export const COMPONENT_SPEC: [RegExp, TokenTypes | null][] = [
 
 export const ATTRIBUTE_SPEC: [RegExp, TokenTypes | null][] = [
   [/^\s+/, null],
-  [/^(<\/[^>]*>)/, TokenTypes.TagClose],
   [/^>/, TokenTypes.TagEnd],
-  [/^</, TokenTypes.TagStart],
   [/^@[aA-z-]*=".*?"/, TokenTypes.EventAttribute],
   [/^:[aA-z-]*=".*?"/, TokenTypes.DynamicAttribute],
   [/^[aA-z-]*=".*?"/, TokenTypes.Attribute],
