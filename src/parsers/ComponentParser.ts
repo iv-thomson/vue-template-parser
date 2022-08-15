@@ -63,9 +63,9 @@ export class ComponentParser extends BaseParser {
   public text(): ASTNode {
     let value = '';
 
-    while (![TokenTypes.TagOpen, TokenTypes.TagClose].includes(this._lookahead.type)) {
+    while (!this.isEndOfText) {
       const textNode = this._eat(this._lookahead.type);
-      const space = ' ';
+      const space = this.isEndOfText ? '' : ' ';
       value += `${textNode.value}${space}`;
     }
 
@@ -73,5 +73,9 @@ export class ComponentParser extends BaseParser {
       type: NodeType.Text,
       value,
     };
+  }
+
+  private get isEndOfText(): boolean {
+    return [TokenTypes.TagOpen, TokenTypes.TagClose].includes(this._lookahead.type);
   }
 }
